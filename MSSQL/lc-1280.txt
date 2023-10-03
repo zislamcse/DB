@@ -1,0 +1,57 @@
+/* Students and Examinations */
+
+CREATE TABLE Students
+(
+	student_id int,
+	student_name VARCHaR(50)
+)
+GO
+
+CREATE TABLE Subjects
+(
+	subject_name varchar(50)
+)
+GO
+
+CREATE TABLE Examinations
+(
+	student_id int,
+	subject_name varchar(50)
+)
+GO
+
+INSERT INTO students
+VALUES(1, 'Alice'), (2, 'Bob'), (13, 'John'), (6, 'Alex' )
+GO
+
+INSERT INTO Subjects
+VALUES('Math'),('Physics'),('Programming')
+GO
+
+INSERT INTO Examinations
+VALUES(1, 'Math'),
+(1, 'Physics'),
+(1, 'Programming'),
+(2, 'Programming'),
+(1, 'Physics'),
+(1, 'Math'),
+(13, 'Math'),
+(13, 'Programming'),
+(13, 'Physics'),
+(2, 'Math'),
+(1, 'Math')
+GO
+
+SELECT * FROM Students
+SELECT * FROM Subjects
+SELECT * FROM Examinations
+GO
+
+SELECT a.student_id, a.student_name, b.subject_name, (CASE WHEN c.student_id IS NULL THEN 0 ELSE COUNT(c.student_id) END) AS attended_exams
+FROM Students a
+CROSS JOIN Subjects b
+LEFT JOIN Examinations c on a.student_id = c.student_id AND b.subject_name = c.subject_name
+GROUP BY a.student_id, a.student_name, b.subject_name, c.student_id
+order by a.student_id
+
+
