@@ -1,0 +1,49 @@
+/* Confirmation Rate */
+
+CREATE TABLE Signups 
+(
+	user_id int,
+	time_stamp datetime
+)
+go
+
+CREATE TABLE Confirmations
+(
+	user_id int,
+	time_stamp datetime,
+	action varchar(50)
+)
+go
+
+insert into Signups
+values(3, '2020-03-21 10:16:13'),
+(7, '2020-01-04 13:57:59'),
+(2, '2020-07-29 23:09:44'),
+(6,'2020-12-09 10:39:37')
+GO
+
+INSERT INTO Confirmations
+VALUES(3, '2021-01-06 03:30:46', 'timeout'),
+(3, '2021-07-14 14:00:00', 'timeout'),
+(7, '2021-06-12 11:57:29', 'confirmed'),
+(7, '2021-06-13 12:58:28', 'confirmed'),
+(7, '2021-06-14 13:59:27', 'confirmed'),
+(2, '2021-01-22 00:00:00', 'confirmed'),
+(2, '2021-02-28 23:59:59', 'timeout')
+GO
+
+SELECT * FROM Signups a
+SELECT * FROM Confirmations b
+go
+
+WITH cte AS
+(
+	SELECT a.user_id, cast(sum(CASE WHEN action = 'confirmed' THEN 1 ELSE 0 END) as DECIMAL(19, 2)) AS con, 
+	count(*) AS coun 
+	FROM Signups a 
+	LEFT JOIN Confirmations b ON a.user_id = b.user_id
+	GROUP BY a.user_id
+) 
+SELECT user_id, cast(sum(con/coun) as decimal(19, 2)) AS confirmation_rate FROM cte
+GROUP BY user_id
+GO
