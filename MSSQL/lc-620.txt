@@ -1,0 +1,23 @@
+/* Not Boring Movies */
+
+CREATE TABLE Cinema
+(
+	id int,
+	movie varchar(50),
+	description varchar(50),
+	rating float
+)
+go
+
+INSERT INTO Cinema
+VALUES(1, 'War','great 3D',8.9),
+(2, 'Science', 'fiction', 8.5),
+(3, 'irish', 'boring', '6.2),
+(4, 'Ice song', 'Fantacy', '8.6),
+(5, 'House card', 'Interesting', '9.1)
+GO
+
+/* Write your T-SQL query statement below */
+SELECT * FROM Cinema
+where id % 2 <> 0 and description != 'boring'
+order by rating desc
