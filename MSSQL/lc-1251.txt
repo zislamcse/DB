@@ -1,0 +1,39 @@
+/* Average Selling Price */
+CREATE TABLE Prices 
+(
+	product_id int,
+	start_date date,
+	end_date date,
+	price int
+)
+GO
+
+CREATE TABLE UnitsSold
+(
+	product_id int,
+	purchase_date date,
+	units int
+)
+GO
+
+INSERT INTO Prices
+VALUES
+(1, '2019-02-17', '2019-02-28',5),
+(1, '2019-03-01', '2019-03-22',20),
+(2, '2019-02-01', '2019-02-20',15),
+(2, '2019-02-21', '2019-03-31',30)
+GO
+
+INSERT INTO UnitsSold
+VALUES
+(1, '2019-02-25', 100),
+(1, '2019-03-01', 15),
+(2, '2019-02-10', 200),
+(2, '2019-03-22', 30)
+GO
+
+SELECT b.product_id, ISNULL(CAST(SUM(CAST((units*price) AS decimal(18, 2)))/SUM(units) AS decimal(18, 2)), 0) AS average_price FROM UnitsSold a
+right JOIN Prices b ON a.product_id = b.product_id AND a.purchase_date BETWEEN b.start_date and b.end_date
+GROUP BY b.product_id
+GO
+
