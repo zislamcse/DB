@@ -1,0 +1,51 @@
+/* Percentage of Users Attended a Contest */
+CREATE TABLE Users
+(
+	user_id int,
+	user_name VARCHAR(50)
+)
+GO
+
+CREATE TABLE Register
+(
+	contest_id INT,
+	user_id INT
+)
+GO
+
+INSERT INTO Users
+VALUES(6, 'Alice'),
+(2,'Bob'),
+(7,'Alex')
+GO
+
+INSERT INTO Register
+VALUES(215, 6),
+(209, 2),
+(208, 2),
+(210, 6),
+(208, 6),
+(209, 7),
+(209, 6),
+(215, 7),
+(208, 7),
+(210, 2),
+(207, 2),
+(210, 7)
+GO
+
+WITH CTE as
+(
+	SELECT COUNT(user_id) AS cteId FROM Users 
+)
+
+SELECT contest_id, CAST((CAST(COUNT(user_id) AS decimal(10, 2))/cteId) AS decimal(10, 2))*100 AS percentage, CAST((CAST(COUNT(user_id) AS decimal(18, 2))/3*100) AS decimal(18, 2)) AS d FROM Register a
+CROSS JOIN CTE
+GROUP BY contest_id, cteId
+ORDER BY 2 DESC, 1
+
+
+
+SELECT contest_id, a.user_id from Users a
+LEFT JOIN Register b ON a.user_id = b.user_id
+ORDER by 1
