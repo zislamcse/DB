@@ -1,0 +1,49 @@
+/* Queries Quality and Percentage */
+
+CREATE TABLE Queries
+(
+	query_name  varchar,
+	result varchar,
+	position int,
+	rating int
+)
+GO
+
+INSERT INTO Queries
+VALUES('Dog', 'Golden Retriever',  1,        5),
+('Dog', 'German Shepherd',   2,        5),
+('Dog', 'Mule',              200,      1),
+('Cat', 'Shirazi',           5,        2),
+('Cat', 'Siamese',           3,        3),
+('Cat', 'Sphynx',            7,        4)
+GO
+
+delete from Queries
+GO
+
+INSERT INTO Queries VALUES
+('lfdxfi','qduxwfnfozvsr', 2,         5),
+('meayln','prepggxrpnrvy', 1,         1),
+('phqghu','wcysyycqpevik', 1,         2),
+('rcvscx','mznimkkasvwsr', 1,         4),
+('lfdxfi','kycxfxtlsgyps', 2,         2),
+('meayln','pooefxzbcoeju', 2,         3),
+('phqghu','aboygpoeylfpb', 2,         3),
+('rcvscx','jvrvipyamyehw', 1,         2),
+('lfdxfi','rqpmxujjloova', 1,         1),
+('meayln','xwhmsncbxcoks', 2,         3),
+('rcvscx','vatxdknlyjyhf', 1,         5),
+('ggbwkf','swnkkufnuxxzr', 2,         3),
+('ggbwkf','nmgqooketlyhn', 1,         3),
+('rcvscx','ugzqrcddiutei', 1,         1),
+('rcvscx','ayyzpvscmpsaj', 2,         5),
+('lfdxfi','gubfaaovlzyln', 2,         4),
+('lfdxfi','dcpwsrtesjwhd', 1,         5)
+GO
+
+	SELECT query_name, CAST(SUM(CAST(rating AS decimal(18, 2))/position)/count(query_name) AS decimal(18, 2)) AS quality, 
+	--(CAST((CAST(1 AS decimal(18, 2))/count(query_name))*100 AS decimal(18, 2))) AS poor_query_percentage, 
+	(CAST(SUM(CASE WHEN rating < 3 THEN 1 ELSE 0 END) AS decimal(18, 2)))/count(query_name)*100 AS poor_query_percentage,
+	AVG(rating) Rating
+	FROM Queries 
+	GROUP BY 
