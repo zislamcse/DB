@@ -1,0 +1,11 @@
+/* Department Highest Salary \*/
+WITH maxSalary AS
+(
+    SELECT MAX(salary) AS maxSalary, departmentId FROM Employee GROUP BY departmentId
+)
+
+SELECT b.name AS Department, a.name AS Employee, c.maxSalary AS salary 
+FROM Employee a
+LEFT JOIN Department b on b.Id = a.departmentId
+LEFT JOIN maxSalary c on c.maxSalary = a.salary AND c.departmentid = b.Id
+WHERE c.maxSalary IS NOT NULL
