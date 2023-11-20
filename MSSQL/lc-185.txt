@@ -1,0 +1,5 @@
+/* Department Top Three Salaries */
+
+SELECT b.name AS Department, a.name AS Employee, a.Salary FROM Employee a
+LEFT JOIN Department b ON b.id = a.departmentId
+where 4>(select count (Distinct salary ) from  employee where salary>=a.salary and departmentid=a.departmentid);
