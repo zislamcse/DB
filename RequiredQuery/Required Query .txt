@@ -1,0 +1,6 @@
+-- For Previous row in sql
+SELECT t.*, LAG(t.Value) OVER (ORDER BY t.ID) FROM table AS t
+
+-- For Next row in sql
+
+SELECT t.*, LEAD(t.Value) OVER (ORDER BY t.ID) FROM table AS t
